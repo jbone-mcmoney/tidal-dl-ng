@@ -13,17 +13,9 @@ from tidal_dl_ng.helper.exceptions import MediaUnknown
 def name_builder_artist(media: Track | Video | Album) -> str:
     return ", ".join(artist.name for artist in media.artists)
 
-
 def name_builder_album_artist(media: Track | Album) -> str:
-    artists_tmp: [str] = []
     artists: [Artist] = media.album.artists if isinstance(media, Track) else media.artists
-
-    for artist in artists:
-        if Role.main in artist.roles:
-            artists_tmp.append(artist.name)
-
-    return ", ".join(artists_tmp)
-
+    return artists[0].name if artists else "Unknown Artist"
 
 def name_builder_title(media: Track | Video | Mix | Playlist | Album | Video) -> str:
     result: str = (
